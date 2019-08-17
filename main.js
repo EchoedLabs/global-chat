@@ -14,7 +14,9 @@ var app = new Vue({
         this.messages = [];
         messagesCollection.forEach(messageItem => {
           this.messages.push(messageItem.data());
-        })
+        });
+        const chatWindow = document.getElementById("chatWindow");
+        chatWindow.scrollTop = chatWindow.scrollHeight;
       })
   },
   methods: {

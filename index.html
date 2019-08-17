@@ -39,7 +39,7 @@
       <div v-else>
         <section class="section">
           <div class="container">
-            <div class="box main-chat-window">
+            <div class="box main-chat-window" id="chatWindow">
               <div class="notification" v-bind:class="{'is-primary':  messageObject.username === username}" v-for="messageObject in messages">
                 <p><strong>{{messageObject.username}}</strong></p>
                 {{messageObject.message}}
