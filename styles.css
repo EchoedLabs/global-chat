@@ -1,7 +1,5 @@
-body {
+html {
   background: #D3CCE3;
-  height: 100vh;
-  min-height: 100vh;
 }
 
 .main-chat-window {
