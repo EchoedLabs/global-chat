@@ -3,6 +3,9 @@ var app = new Vue({
   data: {
     messages: [],
     newMessage: "",
+    username: "",
+    unsavedUsername: "",
+    loggedIn: false,
   },
   created: function(){
     db.collection("messages")
@@ -15,10 +18,17 @@ var app = new Vue({
       })
   },
   methods: {
+    saveUsername: function(){
+      this.username = this.unsavedUsername;
+    },
+    restartSession: function() {
+      this.username = '';
+    },
     enterNewMessage: function(){
       const newMessage = {
         message: this.newMessage,
         date: new Date(),
+        username: this.username,
       }
 
       this.messages.push(newMessage);
