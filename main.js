@@ -1,50 +1,40 @@
 var app = new Vue({
-    el: '#app',
-    data: {
-      messages: [],
-      newMessageText: "",
-      loading: true,
-    },
-    created: async function() {
-      console.log("created>>>>", this.currentUser )
-
-      db.collection("messages")
-        .orderBy("createdAt", "asc")
-        .onSnapshot((querySnapshot)=> {
-          this.loading = false;
-          const chatArea = document.getElementById('chatArea')
-          if(chatArea) {
-            chatArea.scrollTop = chatArea.scrollHeight;
-          }
-            this.messages = [];
-            querySnapshot.forEach((doc) => {
-              this.messages.push(doc.data())
-            });
-        });
-    },
-    methods: {
-      addMessage: function() {
-        const message = {
-          author: "You",
-          text: this.newMessageText,
-          createdAt: new Date()
-        }
-
-        this.addToFirestore(message);
-        this.newMessageText = "";
-      },
-      addToFirestore: function(message) {
-        db.collection("messages").add({
-          author: message.author,
-          text: message.text,
-          createdAt: message.createdAt
+  el: '#app',
+  data: {
+    messages: [],
+    newMessage: "",
+  },
+  created: function(){
+    db.collection("messages")
+      .orderBy('date', 'asc')
+      .onSnapshot(messagesCollection => {
+        this.messages = [];
+        messagesCollection.forEach(messageItem => {
+          this.messages.push(messageItem.data());
         })
-        .then(function(docRef) {
-            console.log("Document written with ID: ", docRef.id);
-        })
-        .catch(function(error) {
-            console.error("Error adding document: ", error);
-        });
+      })
+  },
+  methods: {
+    enterNewMessage: function(){
+      const newMessage = {
+        message: this.newMessage,
+        date: new Date(),
       }
+
+      this.messages.push(newMessage);
+
+      this.addToFirestore(newMessage);
+      this.newMessage = "";
+    }, 
+    addToFirestore: function(newMessage){
+      db.collection('messages')
+        .add(newMessage)
+        .then(function(documentId){
+          console.log("Document has been inserted with id", documentId);
+        })
+        .catch(function(error){
+          console.log(error);
+        })
     }
-  })
+  }
+})

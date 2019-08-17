@@ -3,51 +3,52 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Global Chat</title>
+    <title>Hello Bulma!</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
-    <section class="section" id="app">
-      <div class="container" id="chatApp">
-        <div class="has-text-centered">
+    <div id="app">
+      <section class="section">
+        <div class="container has-text-centered">
           <h1 class="title">
             Global Chat
           </h1>
           <p class="subtitle">
             Because talking to total strangers is a <strong>good</strong> idea!
           </p>
-        </div> 
-
-        <div class="box" id="chatArea">
-          <h1 v-if="loading">Loading messages...</h1>
-          <div v-else class="notification" v-bind:class="{'is-success': message.author === currentUser}" v-for="message in messages">
-            <p><strong>{{message.author}}</strong></p>
-            <p>{{message.text}}</p>
+        </div>
+      </section>
+    
+      <section class="section">
+        <div class="container">
+          <div class="box main-chat-window">
+            <div class="notification" v-for="messageObject in messages">
+              {{messageObject.message}}
+            </div>
           </div>
         </div>
-
-        <div class="field">
-          <div class="control">
-            <input class="input is-large" type="text" placeholder="Write your message..." v-on:keyup.enter="addMessage" v-model="newMessageText" >
-          </div>
+      </section>
+    
+      <section class="section">
+        <div class="container">
+          <input 
+            v-model="newMessage"
+            v-on:keyup.enter="enterNewMessage"
+            class="input is-large" type="text" placeholder="Enter your message...">
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
-    <!-- Firebase -->
-    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-    <script  src="https://www.gstatic.com/firebasejs/6.3.5/firebase-app.js"></script>
-    <!-- Add Firebase products that you want to use -->
-    <script  src="https://www.gstatic.com/firebasejs/6.3.5/firebase-auth.js"></script>
-    <script  src="https://www.gstatic.com/firebasejs/6.3.5/firebase-firestore.js"></script>
-    <!-- Initialize Firebase -->
-    <script  src="firebase-init.js"></script>
+    <!-- VueJS -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
-    <!-- Vue JS -->
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <!-- My Custom Js -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
+
     <script src="main.js"></script>
   </body>
 </html>
