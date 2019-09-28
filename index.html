@@ -61,7 +61,8 @@
 
           <div>
             <p class="subtitle">
-              You are sending messages as <strong>{{ username }}</strong>
+              You are sending messages with ther username of:
+              <strong>{{ username }}</strong>
             </p>
             <input
               v-model="newMessage"
@@ -71,8 +72,8 @@
             />
           </div>
           <br />
-          <button class="button is-text" v-on:click="logout">
-            Reset Session
+          <button class="button is-text is-large" v-on:click="logout">
+            Restart
           </button>
         </div>
       </section>
