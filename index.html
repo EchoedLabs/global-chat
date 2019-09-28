@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Global Chat</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
+    />
     <link rel="stylesheet" href="styles.css" />
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
   </head>
   <body>
     <div id="app">
@@ -20,45 +26,56 @@
           </p>
         </div>
       </section>
-      
+
       <section class="section" v-if="username === ''">
         <div class="container">
           <div class="field">
-              <label class="label">Username</label>
-              <div class="control">
-                  <input 
-                  v-model="unsavedUsername"
-                  v-on:keyup.enter="saveUsername"
-                  class="input is-large" type="text" placeholder="Enter your username">
-              </div>
-              <p class="help">Press enter to begin your session</p>
+            <label class="label">Username</label>
+            <div class="control">
+              <input
+                v-on:keyup.enter="saveUsername"
+                v-model="unsavedUsername"
+                class="input"
+                type="text"
+                placeholder="Enter your desired username"
+              />
             </div>
+          </div>
         </div>
       </section>
 
-      <div v-else>
-        <section class="section">
-          <div class="container">
-            <div class="box main-chat-window" id="chatWindow">
-              <div class="notification" v-bind:class="{'is-primary':  messageObject.username === username}" v-for="messageObject in messages">
-                <p><strong>{{messageObject.username}}</strong></p>
-                {{messageObject.message}}
-              </div>
-            </div>
-
-            <div>
-              <p class="subtitle">
-                You are sending your message as, {{username}}
+      <section class="section" v-else>
+        <div class="container">
+          <div class="box main-chat-window" id="chatWindow">
+            <div
+              v-bind:class="{'is-primary': messageObject.username === username}"
+              class="notification"
+              v-for="messageObject in messages"
+            >
+              <p>
+                <strong>{{ messageObject.username }}</strong>
               </p>
-              <input 
-                v-model="newMessage"
-                v-on:keyup.enter="enterNewMessage"
-                class="input is-large" type="text" v-bind:placeholder="username + ' says...'">
-              <a class="button is-small" v-on:click="restartSession">Restart session</a>
+              {{ messageObject.message }}
             </div>
           </div>
-        </section>
-      </div>
+
+          <div>
+            <p class="subtitle">
+              You are sending messages as <strong>{{ username }}</strong>
+            </p>
+            <input
+              v-model="newMessage"
+              v-on:keyup.enter="enterNewMessage"
+              class="input is-large"
+              type="text"
+            />
+          </div>
+          <br />
+          <button class="button is-text" v-on:click="logout">
+            Reset Session
+          </button>
+        </div>
+      </section>
     </div>
 
     <!-- VueJS -->

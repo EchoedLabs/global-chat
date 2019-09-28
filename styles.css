@@ -6,3 +6,45 @@ html {
   height: 350px;
   overflow: auto;
 }
+
+methods: {
+  scrollToRecentMessage: function(){
+    const chatWindow = document.getElementById("chatWindow");
+    if(!chatWindow){
+      return setTimeout(this.scrollToRecentMessage, 250);
+    }
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  },
+  saveUsername: function(){
+    this.username = this.unsavedUsername;
+  },
+  restartSession: function() {
+    this.username = '';
+    this.resetMessageInput();
+  },
+  resetMessageInput: function() {
+    this.newMessage = '';
+  },
+  enterNewMessage: function(){
+    const newMessage = {
+      message: this.newMessage,
+      date: new Date(),
+      username: this.username,
+    }
+
+    this.addToFirestore(newMessage);
+
+    this.resetMessageInput();
+  }, 
+  addToFirestore: function(newMessage){
+    const scrollToRecentMessage = this.scrollToRecentMessage;
+    db.collection('messages')
+      .add(newMessage)
+      .then(function(documentId){
+        scrollToRecentMessage();
+      })
+      .catch(function(error){
+        console.log(error);
+      })
+  }
+}

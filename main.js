@@ -3,9 +3,8 @@ var app = new Vue({
   data: {
     messages: [],
     newMessage: "",
-    username: "",
     unsavedUsername: "",
-    loggedIn: false,
+    username: "",
   },
   created: function(){
     db.collection("messages")
@@ -15,16 +14,17 @@ var app = new Vue({
         messagesCollection.forEach(messageItem => {
           this.messages.push(messageItem.data());
         });
-        const chatWindow = document.getElementById("chatWindow");
-        chatWindow.scrollTop = chatWindow.scrollHeight;
       })
   },
   methods: {
+    logout: function(){
+      this.username = "";
+    },
     saveUsername: function(){
       this.username = this.unsavedUsername;
     },
-    restartSession: function() {
-      this.username = '';
+    resetMessageInput: function() {
+      this.newMessage = '';
     },
     enterNewMessage: function(){
       const newMessage = {
@@ -33,17 +33,12 @@ var app = new Vue({
         username: this.username,
       }
 
-      this.messages.push(newMessage);
-
       this.addToFirestore(newMessage);
-      this.newMessage = "";
+      this.resetMessageInput();
     }, 
     addToFirestore: function(newMessage){
       db.collection('messages')
         .add(newMessage)
-        .then(function(documentId){
-          console.log("Document has been inserted with id", documentId);
-        })
         .catch(function(error){
           console.log(error);
         })
